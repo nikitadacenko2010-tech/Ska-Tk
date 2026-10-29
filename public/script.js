@@ -77,6 +77,16 @@ let addrMap = null;
 let addrMarker = null;
 
 window.openAddressMap = function() {
+  if (typeof L === 'undefined') {
+    const text = prompt('Карта не завантажилась. Введіть адресу вручну:');
+    if (!text) return;
+    const list = JSON.parse(localStorage.getItem('skatka_addresses') || '[]');
+    list.push({ id: Date.now(), text, comment: '', coords: null });
+    localStorage.setItem('skatka_addresses', JSON.stringify(list));
+    renderAddresses();
+    toast('Адресу збережено', 'success');
+    return;
+  }
   openModal('Виберіть адресу на карті', `
     <div class="addr-hint"><i class="fa-solid fa-info-circle"></i> Клікніть на карті, де ви знаходитесь — адреса підтягнеться автоматично</div>
     <div id="addressMap"></div>
@@ -85,7 +95,7 @@ window.openAddressMap = function() {
     <button class="action-btn" onclick="saveAddress()">Зберегти адресу</button>
   `);
   document.getElementById('genericModal').classList.add('modal-map');
-  setTimeout(initLeafletMap, 150);
+  setTimeout(initLeafletMap, 200);
 };
 
 function initLeafletMap() {
@@ -120,12 +130,7 @@ window.saveAddress = function() {
   const text = (document.getElementById('addrText')?.value || '').trim();
   if (!text) return toast('Вкажіть адресу', 'error');
   const comment = (document.getElementById('addrComment')?.value || '').trim();
-  const addr = {
-    id: Date.now(),
-    text,
-    comment,
-    coords: window.__pickedCoords || null
-  };
+  const addr = { id: Date.now(), text, comment, coords: window.__pickedCoords || null };
   const list = JSON.parse(localStorage.getItem('skatka_addresses') || '[]');
   list.push(addr);
   localStorage.setItem('skatka_addresses', JSON.stringify(list));
@@ -341,12 +346,13 @@ function cardHtml(item) {
   const adminDelete = (CURRENT_USER && CURRENT_USER.role === 'admin')
     ? `<button class="card-admin-delete" title="Видалити" onclick="event.stopPropagation();deleteProduct(${item.id})"><i class="fa-solid fa-trash"></i></button>`
     : '';
+  const dataSecond = second ? `data-second="${second}"` : '';
   return `
     <div class="ad-card" data-id="${item.id}" onclick="goToProduct(${item.id})">
       <div class="ad-img-wrap">
         <div class="card-chip ${isNew ? 'new' : ''}">${isNew ? 'Нове' : catName}</div>
         ${photoCount}
-        <img src="${first}" alt="${item.title}" class="card-img" data-second="${second}" data-index="0" data-images='${JSON.stringify(imgs).replace(/'/g, "&apos;")}'>
+        <img src="${first}" alt="${item.title}" class="card-img" ${dataSecond} data-index="0" data-images='${JSON.stringify(imgs).replace(/'/g, "&apos;")}'>
         ${imgs.length > 1 ? `<button class="card-nav prev" onclick="event.stopPropagation();cardSlide(this,-1)">‹</button><button class="card-nav next" onclick="event.stopPropagation();cardSlide(this,1)">›</button>` : ''}
         ${dots}${adminDelete}
       </div>
@@ -358,11 +364,11 @@ function attachCardHover(container) {
   container.querySelectorAll('.ad-card').forEach(card => {
     const img = card.querySelector('.card-img');
     if (!img) return;
-    const firstSrc = img.getAttribute('src');
-    const secondSrc = img.dataset.second;
-    if (!secondSrc) return;
+    const firstSrc = img.getAttribute('src') || '';
+    const secondSrc = img.getAttribute('data-second') || '';
+    if (!secondSrc || secondSrc === 'undefined') return;
     card.addEventListener('mouseenter', () => { if (!img.dataset.locked) img.src = secondSrc; });
-    card.addEventListener('mouseleave', () => { img.src = firstSrc; });
+    card.addEventListener('mouseleave', () => { if (firstSrc) img.src = firstSrc; });
   });
 }
 
