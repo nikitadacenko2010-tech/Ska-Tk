@@ -91,7 +91,52 @@
         <button class="action-btn" id="addToCartBtn" style="margin-bottom:12px;background:linear-gradient(135deg,#059669,#10b981);"><i class="fa-solid fa-cart-plus"></i> Додати в кошик</button>
         <button class="action-btn" id="buyBtn" style="margin-bottom:25px;"><i class="fa-solid fa-shield-halved"></i> Купити зараз</button>
 
-        <div style="background:#f8fafc;padding:16px;border-radius:12px;border:1px solid #e4ecf4;font-size:13px;font-weight:700;color:#486581;">
+        <div class="product-accordion">
+          <div class="acc-item">
+            <div class="acc-head" onclick="toggleAcc(this)">
+              <span><i class="fa-solid fa-truck-fast" style="color:#0066cc;margin-right:8px;"></i> Доставка</span>
+              <span class="acc-sign">+</span>
+            </div>
+            <div class="acc-body" style="display:none;">
+              <ul style="padding-left:18px;color:#486581;font-weight:700;line-height:1.8;font-size:14px;margin:0;">
+                <li>Відправка по Україні: Нова пошта / Укрпошта (за тарифами перевізника).</li>
+                <li>Термін відправки: протягом 1–2 робочих днів після підтвердження замовлення.</li>
+                <li>Після відправки надішлемо номер ТТН.</li>
+                <li>Самовивіз: за домовленістю (якщо доступно).</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <div class="acc-head" onclick="toggleAcc(this)">
+              <span><i class="fa-solid fa-credit-card" style="color:#059669;margin-right:8px;"></i> Оплата</span>
+              <span class="acc-sign">+</span>
+            </div>
+            <div class="acc-body" style="display:none;">
+              <ul style="padding-left:18px;color:#486581;font-weight:700;line-height:1.8;font-size:14px;margin:0;">
+                <li>Оплата здійснюється на умовах 100% передплати на розрахунковий рахунок згідно замовлення.</li>
+                <li>Реквізити та сума до оплати надсилаються після підтвердження замовлення.</li>
+                <li>Замовлення відправляємо після зарахування коштів.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <div class="acc-head" onclick="toggleAcc(this)">
+              <span><i class="fa-solid fa-rotate-left" style="color:#ef4444;margin-right:8px;"></i> Повернення та обмін</span>
+              <span class="acc-sign">+</span>
+            </div>
+            <div class="acc-body" style="display:none;">
+              <ul style="padding-left:18px;color:#486581;font-weight:700;line-height:1.8;font-size:14px;margin:0;">
+                <li>Повернення або обмін можливі протягом 14 днів, якщо товар не був у використанні та збережено оригінальне пакування.</li>
+                <li>Засоби для догляду за волоссям не підлягають поверненню з гігієнічних причин (якщо інше не передбачено законом).</li>
+                <li>Щоб оформити повернення/обмін — напишіть нам, і ми надамо інструкцію та адресу для відправлення.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#f8fafc;padding:16px;border-radius:12px;border:1px solid #e4ecf4;font-size:13px;font-weight:700;color:#486581;margin-top:20px;">
           <div style="margin-bottom:8px;"><i class="fa-solid fa-truck-fast" style="color:#0066cc;"></i> Доставка Новою поштою або Укрпоштою</div>
           <div><i class="fa-solid fa-shield-halved" style="color:#059669;"></i> Безпечна оплата</div>
         </div>
