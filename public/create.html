@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Подати оголошення | Ska-Tka</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<header class="header">
+  <div class="header-container">
+    <div class="header-left">
+      <a href="index.html" class="logo">Ska-Tka</a>
+      <nav class="header-nav">
+        <a href="index.html"><i class="fa-solid fa-house"></i> Головна</a>
+        <a href="category.html"><i class="fa-solid fa-store"></i> Магазин</a>
+        <a href="about.html">Про нас</a>
+        <a href="contact.html">Контакти</a>
+      </nav>
+    </div>
+    <div class="social-header">
+      <a href="https://t.me/nikr001" target="_blank" class="social-btn tg" title="Telegram @nikr001"><i class="fa-brands fa-telegram"></i></a>
+      <a href="viber://chat?number=%2B380991051839" class="social-btn viber" title="Viber +38 (099) 105-18-39"><i class="fa-brands fa-viber"></i></a>
+    </div>
+    <div class="header-right">
+      <a href="category.html" style="text-decoration:none; color:#0066cc; font-weight:900;"><i class="fa-solid fa-arrow-left"></i> До магазину</a>
+    </div>
+  </div>
+</header>
+
+<main class="main-content">
+  <div class="container">
+    <div style="background:#fff; max-width:680px; margin:40px auto; padding:40px; border-radius:20px; border:1px solid #e4ecf4; box-shadow: 0 10px 30px rgba(0,102,204,0.08);">
+      <h2 style="margin-bottom:30px; font-size:24px; font-weight:900; color:#0d2137;"><i class="fa-solid fa-circle-plus" style="color:#0066cc;"></i> Нове оголошення</h2>
+      <form id="createAdForm">
+        <div class="form-field"><label>Назва товару</label><input type="text" id="newTitle" required placeholder="Наприклад, Перука натуральна"></div>
+        <div class="form-field">
+          <label>Категорія</label>
+          <select id="newCategory">
+            <option value="electronics">Електроніка</option>
+            <option value="auto">Транспорт</option>
+            <option value="property">Нерухомість</option>
+            <option value="work">Робота</option>
+            <option value="other">Інше</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Стан</label>
+          <select id="newCondition">
+            <option value="used">Б/У</option>
+            <option value="new">Нове</option>
+          </select>
+        </div>
+        <div class="form-field"><label>Ціна (грн)</label><input type="number" id="newPrice" required placeholder="1250"></div>
+        <div class="form-field"><label>Місто</label><input type="text" id="newLocation" required placeholder="Київ"></div>
+
+        <div class="form-field">
+          <label>Фото товару (до 7 штук)</label>
+          <input type="file" id="newImageFiles" accept="image/*" multiple required style="padding:10px; background:#f8fafc; border:2px dashed #cbd5e1; border-radius:10px;">
+          <div id="imgPreviewGallery" style="display:flex; gap:12px; flex-wrap:wrap; margin-top:15px;"></div>
+        </div>
+
+        <div class="form-field"><label>Опис</label><textarea id="newDesc" required placeholder="Опишіть стан, характеристики..." style="height: 120px;"></textarea></div>
+        <button type="submit" class="action-btn">Опублікувати</button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<footer class="blue-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Магазин</h4>
+        <ul>
+          <li><a href="index.html">Головна</a></li>
+          <li><a href="about.html">Про нас</a></li>
+          <li><a href="category.html">Каталог</a></li>
+          <li><a href="contact.html">Контакти</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Політика</h4>
+        <ul>
+          <li><a href="#">Умови та положення</a></li>
+          <li><a href="#">Політика конфіденційності</a></li>
+          <li><a href="#">Політика відшкодування</a></li>
+          <li><a href="#">Політика доставки</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Контакти</h4>
+        <p style="font-size:14px;margin-bottom:8px;font-weight:700;">Email: skatka.info@gmail.com</p>
+        <p style="font-size:14px;margin-bottom:8px;font-weight:700;">Тел.: <a href="tel:+380991051839" style="color:#fff;text-decoration:none;">+38 (099) 105-18-39</a></p>
+        <p style="font-size:14px;font-weight:700;">Власник: Дяченко Нікіта Ігорович</p>
+        <div class="footer-socials">
+          <a href="https://t.me/nikr001" target="_blank" class="footer-social tg"><i class="fa-brands fa-telegram"></i> Telegram @nikr001</a>
+          <a href="viber://chat?number=%2B380991051839" class="footer-social viber"><i class="fa-brands fa-viber"></i> Viber</a>
+        </div>
+      </div>
+      <div class="footer-col newsletter-box">
+        <h4>Підпишіться на розсилку</h4>
+        <p style="font-size:12px;margin-bottom:12px;font-weight:700;">Будьте першими, хто дізнається про нові знижки</p>
+        <input type="email" placeholder="Email*">
+        <label><input type="checkbox"> Так, підпишіть мене</label>
+        <button class="secondary-btn" style="width:100%;background:#fff;color:#0066cc;border:none;">Підписатися</button>
+      </div>
+    </div>
+    <div class="footer-brand">Ska-Tka</div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="genericModal">
+    <button class="close-modal" id="closeModal">×</button>
+    <h3 id="modalTitle" style="margin-bottom:15px;font-size:22px;font-weight:900;text-align:center;color:#0d2137;">Вікно</h3>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

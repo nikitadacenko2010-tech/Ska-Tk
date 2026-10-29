@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Адмінка | Ska-Tka</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body data-page="admin">
+<header class="header">
+  <div class="header-container">
+    <div class="header-left">
+      <a href="index.html" class="logo">Ska-Tka</a>
+      <nav class="header-nav">
+        <a href="index.html"><i class="fa-solid fa-house"></i> Головна</a>
+        <a href="category.html"><i class="fa-solid fa-store"></i> Магазин</a>
+        <a href="admin.html" class="active"><i class="fa-solid fa-shield-halved"></i> Адмінка</a>
+      </nav>
+    </div>
+    <div class="social-header">
+      <a href="https://t.me/nikr001" target="_blank" class="social-btn tg" title="Telegram @nikr001"><i class="fa-brands fa-telegram"></i></a>
+      <a href="viber://chat?number=%2B380991051839" class="social-btn viber" title="Viber +38 (099) 105-18-39"><i class="fa-brands fa-viber"></i></a>
+    </div>
+    <div class="header-right">
+      <button class="header-btn" id="userMenuBtn"><i class="fa-regular fa-user"></i> <span id="profileUsername">Увійти</span></button>
+      <div class="profile-dropdown" id="profileDropdown">
+        <a href="profile.html?tab=account"><i class="fa-solid fa-user-gear"></i> Мій акаунт</a>
+        <a href="profile.html?tab=orders"><i class="fa-solid fa-box-open"></i> Мої замовлення</a>
+        <a href="admin.html"><i class="fa-solid fa-shield-halved"></i> Адмін-панель</a>
+        <button id="logoutBtn" style="color: #ef4444;"><i class="fa-solid fa-right-from-bracket"></i> Вийти</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container" style="padding: 40px 20px;">
+  <h1 style="font-size: 28px; font-weight: 900; margin-bottom: 25px; color: #0d2137;">Адмін-панель</h1>
+
+  <div class="ads-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 30px;">
+    <div class="ad-card" style="padding: 20px; cursor: default;">
+      <div style="font-size: 13px; font-weight: 800; color: #64748b;">КОРИСТУВАЧІ</div>
+      <div id="statUsers" style="font-size: 28px; font-weight: 900; color: #0066cc;">0</div>
+    </div>
+    <div class="ad-card" style="padding: 20px; cursor: default;">
+      <div style="font-size: 13px; font-weight: 800; color: #64748b;">ТОВАРИ</div>
+      <div id="statProducts" style="font-size: 28px; font-weight: 900; color: #0066cc;">0</div>
+    </div>
+    <div class="ad-card" style="padding: 20px; cursor: default;">
+      <div style="font-size: 13px; font-weight: 800; color: #64748b;">ЗАМОВЛЕННЯ</div>
+      <div id="statOrders" style="font-size: 28px; font-weight: 900; color: #0066cc;">0</div>
+    </div>
+    <div class="ad-card" style="padding: 20px; cursor: default;">
+      <div style="font-size: 13px; font-weight: 800; color: #64748b;">ВИДАЛЕНО</div>
+      <div id="statRemoved" style="font-size: 28px; font-weight: 900; color: #ef4444;">0</div>
+    </div>
+  </div>
+
+  <h2 style="font-size: 20px; font-weight: 900; margin-bottom: 15px; color: #0d2137;">Аналітика (за добу)</h2>
+  <div class="ads-grid" style="grid-template-columns: repeat(5, 1fr); margin-bottom: 30px;">
+    <div class="ad-card" style="padding: 16px; cursor: default;"><div style="font-size: 12px; font-weight: 800; color: #64748b;">ВІЗИТИ</div><div id="anVisits" style="font-size: 22px; font-weight: 900;">0</div></div>
+    <div class="ad-card" style="padding: 16px; cursor: default;"><div style="font-size: 12px; font-weight: 800; color: #64748b;">ПРОСМОТРИ</div><div id="anViews" style="font-size: 22px; font-weight: 900;">0</div></div>
+    <div class="ad-card" style="padding: 16px; cursor: default;"><div style="font-size: 12px; font-weight: 800; color: #64748b;">ВХОДИ</div><div id="anLogins" style="font-size: 22px; font-weight: 900;">0</div></div>
+    <div class="ad-card" style="padding: 16px; cursor: default;"><div style="font-size: 12px; font-weight: 800; color: #64748b;">ЗАМОВЛЕННЯ</div><div id="anOrders" style="font-size: 22px; font-weight: 900;">0</div></div>
+    <div class="ad-card" style="padding: 16px; cursor: default;"><div style="font-size: 12px; font-weight: 800; color: #64748b;">АКТИВНІ</div><div id="anActive" style="font-size: 22px; font-weight: 900;">0</div></div>
+  </div>
+
+  <h2 style="font-size: 20px; font-weight: 900; margin-bottom: 15px; color: #0d2137;">Користувачі</h2>
+  <div style="background: #fff; border-radius: 14px; border: 1px solid #e4ecf4; overflow: auto; margin-bottom: 30px;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+      <thead style="background: #f0f4f8;">
+        <tr>
+          <th style="text-align: left; padding: 12px;">ID</th>
+          <th style="text-align: left; padding: 12px;">Email</th>
+          <th style="text-align: left; padding: 12px;">Ім'я</th>
+          <th style="text-align: left; padding: 12px;">Роль</th>
+          <th style="text-align: left; padding: 12px;">Блок</th>
+          <th style="padding: 12px;"></th>
+        </tr>
+      </thead>
+      <tbody id="adminUsersBody"></tbody>
+    </table>
+  </div>
+
+  <h2 style="font-size: 20px; font-weight: 900; margin-bottom: 15px; color: #0d2137;">Товари</h2>
+  <div style="background: #fff; border-radius: 14px; border: 1px solid #e4ecf4; overflow: auto;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+      <thead style="background: #f0f4f8;">
+        <tr>
+          <th style="text-align: left; padding: 12px;">ID</th>
+          <th style="text-align: left; padding: 12px;">Назва</th>
+          <th style="text-align: left; padding: 12px;">Ціна</th>
+          <th style="text-align: left; padding: 12px;">Продавець</th>
+          <th style="text-align: left; padding: 12px;">Статус</th>
+          <th style="padding: 12px;"></th>
+        </tr>
+      </thead>
+      <tbody id="adminProductsBody"></tbody>
+    </table>
+  </div>
+</main>
+
+<footer class="blue-footer">
+  <div class="container">
+    <div class="footer-brand">Ska-Tka</div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="genericModal">
+    <button class="close-modal" id="closeModal">×</button>
+    <h3 id="modalTitle" style="margin-bottom:15px;font-size:22px;font-weight:900;text-align:center;color:#0d2137;">Вікно</h3>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

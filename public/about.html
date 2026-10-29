@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Про нас | Ska-Tka</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<header class="header">
+  <div class="header-container">
+    <div class="header-left">
+      <a href="index.html" class="logo">Ska-Tka</a>
+      <nav class="header-nav">
+        <a href="index.html"><i class="fa-solid fa-house"></i> Головна</a>
+        <a href="category.html"><i class="fa-solid fa-store"></i> Магазин</a>
+        <a href="about.html" class="active">Про нас</a>
+        <a href="contact.html">Контакти</a>
+      </nav>
+    </div>
+    <div class="social-header">
+      <a href="https://t.me/nikr001" target="_blank" class="social-btn tg" title="Telegram @nikr001"><i class="fa-brands fa-telegram"></i></a>
+      <a href="viber://chat?number=%2B380991051839" class="social-btn viber" title="Viber +38 (099) 105-18-39"><i class="fa-brands fa-viber"></i></a>
+    </div>
+    <div class="header-right">
+      <button class="header-btn" id="openCartModal"><i class="fa-solid fa-cart-shopping"></i> Кошик <span class="badge" id="cartCounter">0</span></button>
+      <button class="header-btn" id="userMenuBtn"><i class="fa-regular fa-user"></i> <span id="profileUsername">Увійти</span></button>
+      <div class="profile-dropdown" id="profileDropdown">
+        <a href="profile.html?tab=account"><i class="fa-solid fa-user-gear"></i> Мій акаунт</a>
+        <a href="profile.html?tab=orders"><i class="fa-solid fa-box-open"></i> Мої замовлення</a>
+        <a href="admin.html"><i class="fa-solid fa-shield-halved"></i> Адмін-панель</a>
+        <button id="logoutBtn" style="color: #ef4444;"><i class="fa-solid fa-right-from-bracket"></i> Вийти</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container" style="padding: 60px 20px;">
+  <h1 style="font-size: 42px; font-weight: 900; color: #0d2137; margin-bottom: 15px; text-align: center;">Про Ska-Tka</h1>
+  <p style="font-size: 18px; font-weight: 700; color: #486581; text-align: center; max-width: 700px; margin: 0 auto 50px; line-height: 1.7;">Ми створили Ska-Tka, щоб кожен міг знайти речі, які відображають його стиль та характер. Якість, чесність та увага до деталей — наші головні принципи.</p>
+
+  <div class="ads-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 50px;">
+    <div style="background: #fff; padding: 30px; border-radius: 16px; border: 1px solid #e4ecf4; text-align: center;">
+      <i class="fa-solid fa-award" style="font-size: 40px; color: #0066cc; margin-bottom: 15px;"></i>
+      <h3 style="font-size: 18px; font-weight: 900; color: #0d2137; margin-bottom: 10px;">Якість</h3>
+      <p style="font-size: 14px; font-weight: 700; color: #64748b; line-height: 1.6;">Кожен товар проходить перевірку перед публікацією. Ми не продаємо те, що не купили б самі.</p>
+    </div>
+    <div style="background: #fff; padding: 30px; border-radius: 16px; border: 1px solid #e4ecf4; text-align: center;">
+      <i class="fa-solid fa-handshake" style="font-size: 40px; color: #059669; margin-bottom: 15px;"></i>
+      <h3 style="font-size: 18px; font-weight: 900; color: #0d2137; margin-bottom: 10px;">Чесність</h3>
+      <p style="font-size: 14px; font-weight: 700; color: #64748b; line-height: 1.6;">Реальні фото, точні описи, справедливі ціни. Ніяких прихованих умов та сюрпризів.</p>
+    </div>
+    <div style="background: #fff; padding: 30px; border-radius: 16px; border: 1px solid #e4ecf4; text-align: center;">
+      <i class="fa-solid fa-truck-fast" style="font-size: 40px; color: #0099e6; margin-bottom: 15px;"></i>
+      <h3 style="font-size: 18px; font-weight: 900; color: #0d2137; margin-bottom: 10px;">Швидкість</h3>
+      <p style="font-size: 14px; font-weight: 700; color: #64748b; line-height: 1.6;">Доставка Новою поштою або Укрпоштою по всій Україні. Відправляємо протягом 24 годин.</p>
+    </div>
+  </div>
+
+  <div style="background: #fff; padding: 40px; border-radius: 18px; border: 1px solid #e4ecf4; max-width: 800px; margin: 0 auto;">
+    <h2 style="font-size: 26px; font-weight: 900; color: #0d2137; margin-bottom: 20px;">Наша історія</h2>
+    <p style="font-size: 15px; font-weight: 700; color: #486581; line-height: 1.8; margin-bottom: 15px;">Ska-Tka народився з простої ідеї — створити магазин, де кожен товар має сенс. Ми не женемося за кількістю, ми обираємо якість.</p>
+    <p style="font-size: 15px; font-weight: 700; color: #486581; line-height: 1.8;">Засновник — <strong style="color:#0066cc;">Дяченко Нікіта Ігорович</strong>. Зв'язатися з нами можна за телефоном <a href="tel:+380991051839" style="color: #0066cc; font-weight: 900;">+38 (099) 105-18-39</a>, у Telegram <a href="https://t.me/nikr001" target="_blank" style="color: #0066cc; font-weight: 900;">@nikr001</a> або через сторінку <a href="contact.html" style="color: #0066cc; font-weight: 900;">Контакти</a>.</p>
+  </div>
+</main>
+
+<footer class="blue-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Магазин</h4>
+        <ul>
+          <li><a href="index.html">Головна</a></li>
+          <li><a href="about.html">Про нас</a></li>
+          <li><a href="category.html">Каталог</a></li>
+          <li><a href="contact.html">Контакти</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Політика</h4>
+        <ul>
+          <li><a href="#">Умови та положення</a></li>
+          <li><a href="#">Політика конфіденційності</a></li>
+          <li><a href="#">Політика відшкодування</a></li>
+          <li><a href="#">Політика доставки</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Контакти</h4>
+        <p style="font-size:14px;margin-bottom:8px;font-weight:700;">Email: skatka.info@gmail.com</p>
+        <p style="font-size:14px;margin-bottom:8px;font-weight:700;">Тел.: <a href="tel:+380991051839" style="color:#fff;text-decoration:none;">+38 (099) 105-18-39</a></p>
+        <p style="font-size:14px;font-weight:700;">Власник: Дяченко Нікіта Ігорович</p>
+        <div class="footer-socials">
+          <a href="https://t.me/nikr001" target="_blank" class="footer-social tg"><i class="fa-brands fa-telegram"></i> Telegram @nikr001</a>
+          <a href="viber://chat?number=%2B380991051839" class="footer-social viber"><i class="fa-brands fa-viber"></i> Viber</a>
+        </div>
+      </div>
+      <div class="footer-col newsletter-box">
+        <h4>Підпишіться на розсилку</h4>
+        <p style="font-size:12px;margin-bottom:12px;font-weight:700;">Будьте першими, хто дізнається про нові знижки</p>
+        <input type="email" placeholder="Email*">
+        <label><input type="checkbox"> Так, підпишіть мене</label>
+        <button class="secondary-btn" style="width:100%;background:#fff;color:#0066cc;border:none;">Підписатися</button>
+      </div>
+    </div>
+    <div class="footer-brand">Ska-Tka</div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="genericModal">
+    <button class="close-modal" id="closeModal">×</button>
+    <h3 id="modalTitle" style="margin-bottom:15px;font-size:22px;font-weight:900;text-align:center;color:#0d2137;">Вікно</h3>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

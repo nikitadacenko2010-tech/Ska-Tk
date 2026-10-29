@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Товар | Ska-Tka</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<header class="header">
+  <div class="header-container">
+    <div class="header-left">
+      <a href="index.html" class="logo">Ska-Tka</a>
+      <nav class="header-nav">
+        <a href="index.html"><i class="fa-solid fa-house"></i> Головна</a>
+        <a href="category.html"><i class="fa-solid fa-store"></i> Магазин</a>
+        <a href="about.html">Про нас</a>
+        <a href="contact.html">Контакти</a>
+      </nav>
+    </div>
+    <div class="social-header">
+      <a href="https://t.me/nikr001" target="_blank" class="social-btn tg" title="Telegram @nikr001"><i class="fa-brands fa-telegram"></i></a>
+      <a href="viber://chat?number=%2B380991051839" class="social-btn viber" title="Viber +38 (099) 105-18-39"><i class="fa-brands fa-viber"></i></a>
+    </div>
+    <div class="header-right">
+      <button class="header-btn" id="openCartModal"><i class="fa-solid fa-cart-shopping"></i> Кошик <span class="badge" id="cartCounter">0</span></button>
+      <button class="header-btn" id="openFavModal"><i class="fa-regular fa-heart"></i> <span class="badge" id="favCounter">0</span></button>
+      <button class="header-btn" id="userMenuBtn"><i class="fa-regular fa-user"></i> <span id="profileUsername">Увійти</span></button>
+      <div class="profile-dropdown" id="profileDropdown">
+        <a href="profile.html?tab=account"><i class="fa-solid fa-user-gear"></i> Мій акаунт</a>
+        <a href="profile.html?tab=orders"><i class="fa-solid fa-box-open"></i> Мої замовлення</a>
+        <a href="admin.html"><i class="fa-solid fa-shield-halved"></i> Адмін-панель</a>
+        <button id="logoutBtn" style="color: #ef4444;"><i class="fa-solid fa-right-from-bracket"></i> Вийти</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="main-content">
+  <div class="container">
+    <nav class="breadcrumbs">
+      <a href="index.html">Головна</a><span>›</span>
+      <a href="category.html">Магазин</a><span>›</span>
+      <span id="breadcrumbTitle">Товар</span>
+    </nav>
+
+    <div class="product-grid">
+      <div style="background:#fff;padding:30px;border-radius:18px;border:1px solid #e4ecf4;">
+        <img id="productMainImage" class="product-main-img" src="" alt="Фото товару">
+        <div style="font-size:12px;font-weight:800;color:#64748b;text-align:center;margin-top:12px;">
+          <i class="fa-solid fa-expand"></i> Натисніть на фото, щоб відкрити на весь екран
+        </div>
+        <div id="productGalleryThumbnails" style="display:flex;gap:12px;margin-top:16px;overflow-x:auto;padding-bottom:6px;"></div>
+
+        <h3 style="margin-top:35px;margin-bottom:15px;font-size:20px;font-weight:900;color:#0d2137;border-bottom:2px solid #f1f5f9;padding-bottom:10px;">Характеристики</h3>
+        <div id="productCharacteristics" style="margin-bottom:30px;font-size:15px;"></div>
+
+        <h3 style="margin-top:25px;margin-bottom:12px;font-size:20px;font-weight:900;color:#0d2137;">Опис товару</h3>
+        <p id="productDesc" style="color:#486581;line-height:1.75;font-weight:700;margin-bottom:30px;"></p>
+      </div>
+
+      <div class="product-info">
+        <span id="productDate" class="product-date"></span>
+        <div id="productViews" class="product-views"></div>
+        <h1 id="productTitle" class="product-title"></h1>
+        <div id="productPrice" class="product-price"></div>
+
+        <div class="seller-card">
+          <div class="seller-head">
+            <div class="seller-avatar">S</div>
+            <div>
+              <div class="seller-name">Ska-Tka</div>
+              <div class="seller-badge"><i class="fa-solid fa-circle-check"></i> Перевірений продавець</div>
+            </div>
+          </div>
+          <div class="seller-owner"><i class="fa-solid fa-user"></i> Дяченко Нікіта Ігорович</div>
+          <button class="action-btn" id="showPhoneBtn" style="background:linear-gradient(135deg,#059669,#10b981);">
+            <i class="fa-solid fa-phone"></i> Показати телефон
+          </button>
+        </div>
+
+        <div class="contact-social">
+          <div class="contact-social-title">Зв'язатися з продавцем</div>
+          <a href="https://t.me/nikr001" target="_blank" class="contact-social-btn tg"><i class="fa-brands fa-telegram"></i> Telegram @nikr001</a>
+          <a href="viber://chat?number=%2B380991051839" class="contact-social-btn viber"><i class="fa-brands fa-viber"></i> Viber +38 (099) 105-18-39</a>
+        </div>
+
+        <div id="productAdminBox" style="display:none;"></div>
+
+        <button class="action-btn" id="addToCartBtn" style="margin-bottom:12px;background:linear-gradient(135deg,#059669,#10b981);"><i class="fa-solid fa-cart-plus"></i> Додати в кошик</button>
+        <button class="action-btn" id="buyBtn" style="margin-bottom:25px;"><i class="fa-solid fa-shield-halved"></i> Купити зараз</button>
+
+        <div style="background:#f8fafc;padding:16px;border-radius:12px;border:1px solid #e4ecf4;font-size:13px;font-weight:700;color:#486581;">
+          <div style="margin-bottom:8px;"><i class="fa-solid fa-truck-fast" style="color:#0066cc;"></i> Доставка Новою поштою або Укрпоштою</div>
+          <div><i class="fa-solid fa-shield-halved" style="color:#059669;"></i> Безпечна оплата</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="relatedSection" style="display:none;margin-top:60px;">
+      <h2 style="font-size:26px;font-weight:900;color:#0d2137;margin-bottom:22px;"><i class="fa-solid fa-star" style="color:#0099e6;"></i> Схожі товари</h2>
+      <div class="ads-grid" id="relatedGrid"></div>
+    </div>
+  </div>
+</main>
+
+<footer class="blue-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Магазин</h4>
+        <ul>
+          <li><a href="index.html">Головна</a></li>
+          <li><a href="about.html">Про нас</a></li>
+          <li><a href="category.html">Каталог</a></li>
+          <li><a href="contact.html">Контакти</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Політика</h4>
+        <ul>
+          <li><a href="#">Умови та положення</a></li>
+          <li><a href="#">Політика конфіденційності</a></li>
+          <li><a href="#">Політика відшкодування</a></li>
+          <li><a href="#">Політика доставки</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Контакти</h4>
+        <p style="font-size:14px;margin-bottom:8px;font-weight:700;">Email: skatka.info@gmail.com</p>
+        <p style="font-size:14px;margin-bottom:8px;font-weight:700;">Тел.: <a href="tel:+380991051839" style="color:#fff;text-decoration:none;">+38 (099) 105-18-39</a></p>
+        <p style="font-size:14px;font-weight:700;">Власник: Дяченко Нікіта Ігорович</p>
+        <div class="footer-socials">
+          <a href="https://t.me/nikr001" target="_blank" class="footer-social tg"><i class="fa-brands fa-telegram"></i> Telegram @nikr001</a>
+          <a href="viber://chat?number=%2B380991051839" class="footer-social viber"><i class="fa-brands fa-viber"></i> Viber</a>
+        </div>
+      </div>
+      <div class="footer-col newsletter-box">
+        <h4>Підпишіться на розсилку</h4>
+        <p style="font-size:12px;margin-bottom:12px;font-weight:700;">Будьте першими, хто дізнається про нові знижки</p>
+        <input type="email" placeholder="Email*">
+        <label><input type="checkbox"> Так, підпишіть мене</label>
+        <button class="secondary-btn" style="width:100%;background:#fff;color:#0066cc;border:none;">Підписатися</button>
+      </div>
+    </div>
+    <div class="footer-brand">Ska-Tka</div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="genericModal">
+    <button class="close-modal" id="closeModal">×</button>
+    <h3 id="modalTitle" style="margin-bottom:15px;font-size:22px;font-weight:900;text-align:center;color:#0d2137;">Вікно</h3>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

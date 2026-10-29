@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Оформлення | Ska-Tka</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+.checkout-grid { display: grid; grid-template-columns: 1fr 420px; gap: 40px; padding: 30px 0; }
+.checkout-box { background: #fff; padding: 35px; border-radius: 18px; border: 1px solid #e4ecf4; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.delivery-opt {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 18px; border: 2px solid #e4ecf4; border-radius: 12px;
+  cursor: pointer; transition: all 0.2s; margin-bottom: 12px; background: #f8fafc;
+}
+.delivery-opt:hover { border-color: #b8d9f5; background: #fff; }
+.delivery-opt.active { border-color: #0066cc; background: #eaf3ff; }
+.delivery-opt .icon { font-size: 20px; color: #0066cc; }
+.delivery-opt .title { font-weight: 900; color: #0d2137; font-size: 15px; }
+.delivery-opt .sub { font-size: 12px; color: #64748b; font-weight: 700; margin-top: 2px; }
+.delivery-sub { margin-left: 40px; margin-bottom: 16px; display: none; }
+.delivery-sub.active { display: block; }
+.sub-opt { display: inline-flex; align-items: center; gap: 8px; margin-right: 16px; padding: 8px 14px; border-radius: 8px; background: #fff; border: 2px solid #e4ecf4; cursor: pointer; font-weight: 800; font-size: 13px; }
+.sub-opt.active { border-color: #0066cc; background: #eaf3ff; color: #0066cc; }
+@media (max-width: 768px) { .checkout-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-container">
+    <div class="header-left">
+      <a href="index.html" class="logo">Ska-Tka</a>
+      <nav class="header-nav"><a href="category.html"><i class="fa-solid fa-arrow-left"></i> Назад до магазину</a></nav>
+    </div>
+    <div class="social-header">
+      <a href="https://t.me/nikr001" target="_blank" class="social-btn tg" title="Telegram @nikr001"><i class="fa-brands fa-telegram"></i></a>
+      <a href="viber://chat?number=%2B380991051839" class="social-btn viber" title="Viber +38 (099) 105-18-39"><i class="fa-brands fa-viber"></i></a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="checkout-grid">
+    <div class="checkout-box">
+      <h2 style="margin-bottom: 22px; font-size: 22px; font-weight: 900; color: #0d2137;">Контактні дані</h2>
+      <div class="form-row">
+        <div class="form-field"><label>Ім'я *</label><input type="text" id="chName" required placeholder="Іван"></div>
+        <div class="form-field"><label>Прізвище *</label><input type="text" id="chSurname" required placeholder="Петренко"></div>
+      </div>
+      <div class="form-field">
+        <label>Телефон * (формат: +380XXXXXXXXX)</label>
+        <input type="text" id="chPhone" required placeholder="+380670000000">
+      </div>
+      <div class="form-field">
+        <label>Email (на нього надішлемо копію замовлення)</label>
+        <input type="email" id="chEmail" placeholder="you@example.com">
+      </div>
+
+      <h2 style="margin: 30px 0 18px 0; font-size: 22px; font-weight: 900; color: #0d2137;">Доставка</h2>
+
+      <div class="delivery-opt active" data-type="nova_poshta" onclick="selectDelivery('nova_poshta')">
+        <div class="icon"><i class="fa-solid fa-truck-fast"></i></div>
+        <div>
+          <div class="title">Нова пошта</div>
+          <div class="sub">Відділення або поштомат</div>
+        </div>
+      </div>
+      <div class="delivery-sub active" id="subNova">
+        <div class="sub-opt active" data-sub="department" onclick="selectSub('department')">Відділення</div>
+        <div class="sub-opt" data-sub="postomat" onclick="selectSub('postomat')">Поштомат</div>
+      </div>
+
+      <div class="delivery-opt" data-type="ukrposhta" onclick="selectDelivery('ukrposhta')">
+        <div class="icon"><i class="fa-solid fa-envelope"></i></div>
+        <div>
+          <div class="title">Укрпошта</div>
+          <div class="sub">Відділення або індекс</div>
+        </div>
+      </div>
+
+      <div class="form-field" style="margin-top: 20px;">
+        <label>Місто *</label>
+        <input type="text" id="chCity" required placeholder="Київ">
+      </div>
+      <div class="form-field">
+        <label id="deptLabel">Відділення Нової пошти *</label>
+        <input type="text" id="chDepartment" required placeholder="№ відділення">
+      </div>
+
+      <div class="contact-social" style="margin-top: 20px;">
+        <div class="contact-social-title">Маєте питання? Напишіть нам</div>
+        <a href="https://t.me/nikr001" target="_blank" class="contact-social-btn tg"><i class="fa-brands fa-telegram"></i> Telegram @nikr001</a>
+        <a href="viber://chat?number=%2B380991051839" class="contact-social-btn viber"><i class="fa-brands fa-viber"></i> Viber +38 (099) 105-18-39</a>
+      </div>
+
+      <button class="action-btn" id="proceedCheckoutBtn" style="margin-top: 25px;">Продовжити</button>
+    </div>
+
+    <div class="checkout-box" style="height: fit-content;">
+      <h3 style="margin-bottom: 20px; font-size: 20px; font-weight: 900; color: #0d2137; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px;">Дані замовлення</h3>
+      <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px;">
+        <img id="summaryImg" src="" alt="" style="width: 70px; height: 70px; object-fit: cover; border-radius: 10px; border: 1px solid #e4ecf4;">
+        <div>
+          <div id="summaryTitle" style="font-weight: 900; font-size: 15px; margin-bottom: 6px; color: #0d2137;"></div>
+          <div id="summaryPrice" style="color: #0066cc; font-weight: 900; font-size: 18px;"></div>
+        </div>
+      </div>
+      <div style="border-top: 2px solid #f1f5f9; padding-top: 20px; font-size: 20px; font-weight: 900; display:flex; justify-content:space-between; color:#0d2137;">
+        <span>Загалом:</span> <span id="totalText" style="color:#0066cc;">0 грн</span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="blue-footer">
+  <div class="container"><div class="footer-brand">Ska-Tka</div></div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="genericModal">
+    <button class="close-modal" id="closeModal">×</button>
+    <h3 id="modalTitle" style="margin-bottom:15px; font-size:22px; font-weight:900; text-align:center; color:#0d2137;">Вікно</h3>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+window.__delivery = { type: 'nova_poshta', subtype: 'department' };
+window.selectDelivery = function(type) {
+  window.__delivery.type = type;
+  document.querySelectorAll('.delivery-opt').forEach(el => el.classList.toggle('active', el.dataset.type === type));
+  const sub = document.getElementById('subNova');
+  if (sub) sub.classList.toggle('active', type === 'nova_poshta');
+  const lbl = document.getElementById('deptLabel');
+  if (lbl) lbl.textContent = type === 'ukrposhta' ? 'Відділення Укрпошти / індекс *' : (window.__delivery.subtype === 'postomat' ? 'Поштомат Нової пошти *' : 'Відділення Нової пошти *');
+};
+window.selectSub = function(sub) {
+  window.__delivery.subtype = sub;
+  document.querySelectorAll('.sub-opt').forEach(el => el.classList.toggle('active', el.dataset.sub === sub));
+  const lbl = document.getElementById('deptLabel');
+  if (lbl) lbl.textContent = sub === 'postomat' ? 'Поштомат Нової пошти *' : 'Відділення Нової пошти *';
+};
+</script>
+<script src="script.js"></script>
+</body>
+</html>
