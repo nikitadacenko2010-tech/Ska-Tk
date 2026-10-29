@@ -21,6 +21,57 @@ window.toast = toast;
 
 let CURRENT_USER = null;
 
+// === ТЕКСТЫ ПОЛИТИК ===
+const POLICIES = {
+  terms: {
+    title: 'Умови та положення',
+    html: `
+      <h3 style="font-size:16px;font-weight:900;color:#0d2137;margin-bottom:10px;">Оплата</h3>
+      <ul style="padding-left:18px;color:#486581;font-weight:700;line-height:1.7;margin-bottom:20px;font-size:14px;">
+        <li>Оплата здійснюється на умовах 100% передплати на розрахунковий рахунок згідно замовлення.</li>
+        <li>Реквізити та сума до оплати надсилаються після підтвердження замовлення.</li>
+        <li>Замовлення відправляємо після зарахування коштів.</li>
+      </ul>
+      <h3 style="font-size:16px;font-weight:900;color:#0d2137;margin-bottom:10px;">Повернення та обмін</h3>
+      <ul style="padding-left:18px;color:#486581;font-weight:700;line-height:1.7;font-size:14px;">
+        <li>Повернення або обмін можливі протягом 14 днів, якщо товар не був у використанні та збережено оригінальне пакування.</li>
+        <li>Засоби для догляду за волоссям не підлягають поверненню з гігієнічних причин (якщо інше не передбачено законом).</li>
+        <li>Щоб оформити повернення/обмін — напишіть нам, і ми надамо інструкцію та адресу для відправлення.</li>
+      </ul>`
+  },
+  privacy: {
+    title: 'Політика конфіденційності',
+    html: `
+      <p style="color:#486581;font-weight:700;line-height:1.8;font-size:14px;margin-bottom:14px;">Ми поважаємо вашу приватність. Особисті дані (ім'я, телефон, email, адреса доставки) використовуються виключно для обробки та відправки замовлень.</p>
+      <p style="color:#486581;font-weight:700;line-height:1.8;font-size:14px;margin-bottom:14px;">Ми не передаємо ваші дані третім особам, окрім служб доставки (Нова пошта, Укрпошта) для виконання замовлення.</p>
+      <p style="color:#486581;font-weight:700;line-height:1.8;font-size:14px;">Ви можете в будь-який момент попросити видалити ваші дані, написавши на <a href="mailto:skatka.info@gmail.com" style="color:#0066cc;">skatka.info@gmail.com</a>.</p>`
+  },
+  refund: {
+    title: 'Політика відшкодування',
+    html: `
+      <p style="color:#486581;font-weight:700;line-height:1.8;font-size:14px;margin-bottom:14px;"><strong>Витяг із законодавства України:</strong></p>
+      <p style="color:#486581;font-weight:700;line-height:1.8;font-size:14px;margin-bottom:14px;">Повернення/обмін товарів належної якості здійснюється відповідно до Закону України «Про захист прав споживачів» та Переліку товарів належної якості, що не підлягають обміну (поверненню), затвердженого постановою КМУ №172 від 19.03.1994.</p>
+      <p style="color:#486581;font-weight:700;line-height:1.8;font-size:14px;margin-bottom:14px;">До такого переліку, зокрема, належать: «парфумерно-косметичні вироби», «предмети санітарної гігієни», «гребінці, гребені та щітки масажні», «перуки, шиньйони та інші вироби з натурального або штучного волосся».</p>
+      <p style="color:#486581;font-weight:700;line-height:1.8;font-size:14px;">Якщо товар має дефект з вини продавця — повернення або обмін здійснюється за рахунок продавця.</p>`
+  },
+  delivery: {
+    title: 'Політика доставки',
+    html: `
+      <ul style="padding-left:18px;color:#486581;font-weight:700;line-height:1.8;font-size:14px;">
+        <li>Відправка по Україні: Нова пошта / Укрпошта (за тарифами перевізника).</li>
+        <li>Термін відправки: протягом 1–2 робочих днів після підтвердження замовлення.</li>
+        <li>Після відправки надішлемо номер ТТН.</li>
+        <li>Самовивіз: за домовленістю (якщо доступно).</li>
+      </ul>`
+  }
+};
+
+window.openPolicy = function(key) {
+  const p = POLICIES[key];
+  if (!p) return;
+  openModal(p.title, `<div style="max-height:65vh;overflow-y:auto;padding-right:6px;">${p.html}</div>`);
+};
+
 // ЛАЙТБОКС
 function buildLightbox() {
   if (document.getElementById('lightbox')) return;
@@ -64,6 +115,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (nameEl) nameEl.textContent = CURRENT_USER ? (CURRENT_USER.name || 'Акаунт') : 'Увійти';
   updateCounters();
   initGlobalHandlers(CURRENT_USER);
+  initFooterPolicies();
   if (document.getElementById('hitAdsGrid')) initHomePageHits();
   if (document.getElementById('catalogAdsGrid')) initCatalog();
   if (document.getElementById('productMainImage')) initProductPage();
@@ -72,6 +124,21 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (document.getElementById('ordersContentBody')) initProfilePage();
   if (document.body.dataset.page === 'admin') initAdminPage();
 });
+
+function initFooterPolicies() {
+  const map = {
+    'Умови та положення': 'terms',
+    'Політика конфіденційності': 'privacy',
+    'Політика відшкодування': 'refund',
+    'Політика доставки': 'delivery'
+  };
+  document.querySelectorAll('footer a').forEach(a => {
+    const t = a.textContent.trim();
+    if (map[t]) {
+      a.addEventListener('click', e => { e.preventDefault(); openPolicy(map[t]); });
+    }
+  });
+}
 
 function updateCounters() {
   const cart = JSON.parse(localStorage.getItem('skatka_cart') || '[]');
@@ -158,12 +225,12 @@ window.doRegister = async () => {
   }
 };
 
-// ГЛАВНАЯ
 async function initHomePageHits() {
   const grid = document.getElementById('hitAdsGrid');
   grid.innerHTML = Array(8).fill('<div class="skeleton" style="height:300px;"></div>').join('');
   const items = await api('/api/products?sort=popular');
   grid.innerHTML = items.slice(0,8).map(cardHtml).join('');
+  attachCardHover(grid);
 }
 
 const CATEGORY_NAMES = { electronics: 'Електроніка', auto: 'Транспорт', property: 'Нерухомість', work: 'Робота', other: 'Інше' };
@@ -171,6 +238,7 @@ const CATEGORY_NAMES = { electronics: 'Електроніка', auto: 'Тран�
 function cardHtml(item) {
   const imgs = item.images || [];
   const first = imgs[0] || '';
+  const second = imgs[1] || '';
   const dots = imgs.length > 1 ? `<div class="card-dots">${imgs.map((_, i) => `<span class="${i===0?'active':''}" data-i="${i}"></span>`).join('')}</div>` : '';
   const catName = CATEGORY_NAMES[item.category] || 'Інше';
   const isNew = item.condition === 'new';
@@ -183,12 +251,24 @@ function cardHtml(item) {
       <div class="ad-img-wrap">
         <div class="card-chip ${isNew ? 'new' : ''}">${isNew ? 'Нове' : catName}</div>
         ${photoCount}
-        <img src="${first}" alt="${item.title}" class="card-img" data-index="0" data-images='${JSON.stringify(imgs).replace(/'/g, "&apos;")}'>
+        <img src="${first}" alt="${item.title}" class="card-img" data-second="${second}" data-index="0" data-images='${JSON.stringify(imgs).replace(/'/g, "&apos;")}'>
         ${imgs.length > 1 ? `<button class="card-nav prev" onclick="event.stopPropagation();cardSlide(this,-1)">‹</button><button class="card-nav next" onclick="event.stopPropagation();cardSlide(this,1)">›</button>` : ''}
         ${dots}${adminDelete}
       </div>
       <div class="ad-content"><div class="ad-title">${item.title}</div><div class="ad-price">${item.price} грн</div></div>
     </div>`;
+}
+
+function attachCardHover(container) {
+  container.querySelectorAll('.ad-card').forEach(card => {
+    const img = card.querySelector('.card-img');
+    if (!img) return;
+    const firstSrc = img.getAttribute('src');
+    const secondSrc = img.dataset.second;
+    if (!secondSrc) return;
+    card.addEventListener('mouseenter', () => { if (!img.dataset.locked) img.src = secondSrc; });
+    card.addEventListener('mouseleave', () => { img.src = firstSrc; });
+  });
 }
 
 window.cardSlide = (btn, dir) => {
@@ -198,6 +278,7 @@ window.cardSlide = (btn, dir) => {
   let i = Number(img.dataset.index || 0);
   i = (i + dir + imgs.length) % imgs.length;
   img.src = imgs[i]; img.dataset.index = i;
+  img.dataset.locked = '1';
   wrap.querySelectorAll('.card-dots span').forEach((d, idx) => d.classList.toggle('active', idx === i));
 };
 
@@ -212,7 +293,6 @@ window.deleteProduct = async id => {
   } catch(e) { toast(e.message, 'error'); }
 };
 
-// КАТАЛОГ
 async function initCatalog() {
   const grid = document.getElementById('catalogAdsGrid');
   const searchInput = document.getElementById('searchInput');
@@ -321,6 +401,7 @@ async function initCatalog() {
         </div>`;
     } else {
       grid.innerHTML = items.map(cardHtml).join('');
+      attachCardHover(grid);
     }
   }
 
@@ -330,17 +411,12 @@ async function initCatalog() {
   render();
 }
 
-// СТРАНИЦА ТОВАРА
 async function initProductPage() {
   const id = localStorage.getItem('skatka_current_product');
   if (!id) return;
 
   let item = null;
-  try {
-    item = await api('/api/products/' + id);
-  } catch (e) {
-    console.warn('Не вдалось завантажити товар:', e.message);
-  }
+  try { item = await api('/api/products/' + id); } catch (e) { console.warn(e.message); }
 
   if (!item) {
     const cart = JSON.parse(localStorage.getItem('skatka_cart') || '[]');
@@ -350,13 +426,9 @@ async function initProductPage() {
   if (item) {
     const imgs = item.images || [];
     const main = document.getElementById('productMainImage');
-    if (main) {
-      main.src = imgs[0] || '';
-      main.style.cursor = imgs.length ? 'zoom-in' : 'default';
-    }
+    if (main) { main.src = imgs[0] || ''; main.style.cursor = imgs.length ? 'zoom-in' : 'default'; }
     window.__productImages = imgs;
     window.__productIndex = 0;
-
     main?.addEventListener('click', () => { if (imgs.length) openLightbox(0); });
 
     const thumbs = document.getElementById('productGalleryThumbnails');
@@ -365,16 +437,12 @@ async function initProductPage() {
         <img src="${src}" data-src="${src}" data-index="${i}" onclick="switchProductImage(this)" style="width:76px;height:76px;object-fit:cover;border-radius:10px;cursor:pointer;border:2px solid ${i===0?'#0066cc':'#e4ecf4'};transition:border-color 0.2s;">`).join('');
     }
 
-    const t = document.getElementById('productTitle');
-    if (t) t.textContent = item.title;
-    const p = document.getElementById('productPrice');
-    if (p) p.textContent = item.price + ' грн';
-    const d = document.getElementById('productDesc');
-    if (d) d.textContent = item.description;
-    const dt = document.getElementById('productDate');
-    if (dt) dt.textContent = 'Опубліковано: ' + new Date(item.createdAt).toLocaleDateString('uk-UA');
-    const sn = document.getElementById('sellerName');
-    if (sn) sn.textContent = item.seller?.name || 'Ska-Tka';
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('productTitle', item.title);
+    set('productPrice', item.price + ' грн');
+    set('productDesc', item.description);
+    set('productDate', 'Опубліковано: ' + new Date(item.createdAt).toLocaleDateString('uk-UA'));
+    set('sellerName', item.seller?.name || 'Ska-Tka');
     const v = document.getElementById('productViews');
     if (v) v.innerHTML = `<i class="fa-solid fa-eye"></i> ${item.views || 0} переглядів`;
     const crumb = document.getElementById('breadcrumbTitle');
@@ -396,6 +464,7 @@ async function initProductPage() {
       if (relGrid && relSection && related.length) {
         relGrid.innerHTML = related.map(cardHtml).join('');
         relSection.style.display = 'block';
+        attachCardHover(relGrid);
       }
     } catch {}
   } else {
@@ -430,7 +499,15 @@ window.switchProductImage = thumb => {
   thumb.style.borderColor = '#0066cc';
 };
 
-// КОРЗИНА
+window.toggleAcc = function(head) {
+  const body = head.nextElementSibling;
+  const sign = head.querySelector('.acc-sign');
+  const isOpen = body.style.display === 'block';
+  body.style.display = isOpen ? 'none' : 'block';
+  if (sign) sign.textContent = isOpen ? '+' : '−';
+  head.classList.toggle('open', !isOpen);
+};
+
 function renderCartModal() {
   const cart = JSON.parse(localStorage.getItem('skatka_cart') || '[]');
   if (!cart.length) return openModal('Кошик', '<p style="text-align:center;padding:20px;font-weight:800;">Порожній</p>');
@@ -466,14 +543,12 @@ window.toggleFav = async id => {
   renderFavModal(); updateCounters();
 };
 
-// СОЗДАНИЕ
 async function initCreateAdForm() {
   const fileInput = document.getElementById('newImageFiles');
   const galleryPreview = document.getElementById('imgPreviewGallery');
 
   fileInput?.addEventListener('change', e => {
     const files = Array.from(e.target.files).slice(0, 7);
-    console.log('Обрано файлів:', files.length, files.map(f => f.name));
     galleryPreview.innerHTML = '';
     const counter = document.createElement('div');
     counter.style.cssText = 'width:100%;font-size:12px;font-weight:900;color:#0066cc;margin-bottom:8px;';
@@ -491,9 +566,7 @@ async function initCreateAdForm() {
         const num = document.createElement('div');
         num.style.cssText = 'position:absolute;top:-6px;right:-6px;width:22px;height:22px;background:#0066cc;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;';
         num.textContent = idx + 1;
-        wrap.appendChild(img);
-        wrap.appendChild(num);
-        galleryPreview.appendChild(wrap);
+        wrap.appendChild(img); wrap.appendChild(num); galleryPreview.appendChild(wrap);
       };
       reader.readAsDataURL(file);
     });
@@ -502,10 +575,7 @@ async function initCreateAdForm() {
   document.getElementById('createAdForm')?.addEventListener('submit', async e => {
     e.preventDefault();
     const files = Array.from(document.getElementById('newImageFiles').files).slice(0, 7);
-    console.log('Відправляю файлів:', files.length);
-
     if (!files.length) return toast('Оберіть хоча б одне фото', 'error');
-
     try {
       const fd = new FormData();
       fd.append('title', document.getElementById('newTitle').value);
@@ -514,17 +584,13 @@ async function initCreateAdForm() {
       fd.append('price', document.getElementById('newPrice').value);
       fd.append('description', document.getElementById('newDesc').value);
       files.forEach(f => fd.append('images', f));
-
       await api('/api/products', { method: 'POST', body: fd });
       toast(`Оголошення додано (${files.length} фото)`, 'success');
       setTimeout(() => location.href = 'category.html', 700);
-    } catch (err) {
-      toast(err.message, 'error');
-    }
+    } catch (err) { toast(err.message, 'error'); }
   });
 }
 
-// ОФОРМЛЕНИЕ ЗАКАЗА
 async function initCheckoutPage() {
   const id = localStorage.getItem('skatka_checkout_product') || localStorage.getItem('skatka_current_product');
   if (!id) return;
@@ -578,7 +644,6 @@ async function initCheckoutPage() {
   });
 }
 
-// ПРОФИЛЬ
 async function initProfilePage() {
   const me = await getMe();
   if (!me) return openAuthModal();
@@ -625,7 +690,6 @@ window.resetForm = () => toast('Скинуто', 'info');
 window.updateProfile = () => toast('Оновлено', 'success');
 window.addNewAddress = () => prompt('Введіть адресу');
 
-// АДМИН
 async function initAdminPage() {
   const me = await getMe();
   if (!me || me.role !== 'admin') { location.href = 'index.html'; return; }
