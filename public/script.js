@@ -72,6 +72,98 @@ window.openPolicy = function(key) {
   openModal(p.title, `<div style="max-height:65vh;overflow-y:auto;padding-right:6px;">${p.html}</div>`);
 };
 
+// === КАРТА АДРЕСОВ ===
+let addrMap = null;
+let addrMarker = null;
+
+window.openAddressMap = function() {
+  openModal('Виберіть адресу на карті', `
+    <div class="addr-hint"><i class="fa-solid fa-info-circle"></i> Клікніть на карті, де ви знаходитесь — адреса підтягнеться автоматично</div>
+    <div id="addressMap"></div>
+    <div class="form-field"><label>Адреса</label><input id="addrText" placeholder="Вулиця, будинок, місто"></div>
+    <div class="form-field"><label>Коментар (під'їзд, поверх)</label><input id="addrComment" placeholder="Необов'язково"></div>
+    <button class="action-btn" onclick="saveAddress()">Зберегти адресу</button>
+  `);
+  document.getElementById('genericModal').classList.add('modal-map');
+  setTimeout(initLeafletMap, 150);
+};
+
+function initLeafletMap() {
+  const el = document.getElementById('addressMap');
+  if (!el || typeof L === 'undefined') return;
+  if (addrMap) { try { addrMap.remove(); } catch {} addrMap = null; }
+  addrMap = L.map('addressMap').setView([50.4501, 30.5234], 12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap',
+    maxZoom: 19
+  }).addTo(addrMap);
+  setTimeout(() => addrMap.invalidateSize(), 200);
+
+  addrMap.on('click', async e => {
+    const { lat, lng } = e.latlng;
+    if (addrMarker) addrMap.removeLayer(addrMarker);
+    addrMarker = L.marker([lat, lng]).addTo(addrMap);
+    window.__pickedCoords = { lat, lng };
+    const addrInput = document.getElementById('addrText');
+    if (addrInput) addrInput.value = 'Завантаження адреси...';
+    try {
+      const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=uk`);
+      const data = await r.json();
+      if (addrInput) addrInput.value = data.display_name || `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+    } catch {
+      if (addrInput) addrInput.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+    }
+  });
+}
+
+window.saveAddress = function() {
+  const text = (document.getElementById('addrText')?.value || '').trim();
+  if (!text) return toast('Вкажіть адресу', 'error');
+  const comment = (document.getElementById('addrComment')?.value || '').trim();
+  const addr = {
+    id: Date.now(),
+    text,
+    comment,
+    coords: window.__pickedCoords || null
+  };
+  const list = JSON.parse(localStorage.getItem('skatka_addresses') || '[]');
+  list.push(addr);
+  localStorage.setItem('skatka_addresses', JSON.stringify(list));
+  window.__pickedCoords = null;
+  document.getElementById('genericModal').classList.remove('modal-map');
+  closeModal();
+  renderAddresses();
+  toast('Адресу збережено', 'success');
+};
+
+function renderAddresses() {
+  const body = document.getElementById('addressesBody');
+  if (!body) return;
+  const list = JSON.parse(localStorage.getItem('skatka_addresses') || '[]');
+  if (!list.length) {
+    body.innerHTML = '<p style="text-align:center;font-weight:700;color:#64748b;padding:20px 0;">Адрес ще немає</p>';
+    return;
+  }
+  body.innerHTML = list.map(a => `
+    <div style="display:flex;gap:14px;align-items:center;padding:16px;border:1px solid #e4ecf4;border-radius:12px;margin-bottom:10px;background:#f8fafc;">
+      <i class="fa-solid fa-location-dot" style="color:#0066cc;font-size:20px;"></i>
+      <div style="flex:1;">
+        <div style="font-weight:900;color:#0d2137;">${a.text}</div>
+        ${a.comment ? `<div style="font-size:13px;font-weight:700;color:#64748b;margin-top:3px;">${a.comment}</div>` : ''}
+        ${a.coords ? `<div style="font-size:11px;font-weight:700;color:#94a3b8;margin-top:3px;">${a.coords.lat.toFixed(5)}, ${a.coords.lng.toFixed(5)}</div>` : ''}
+      </div>
+      <button onclick="deleteAddress(${a.id})" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:16px;"><i class="fa-solid fa-trash-can"></i></button>
+    </div>
+  `).join('');
+}
+
+window.deleteAddress = function(id) {
+  const list = JSON.parse(localStorage.getItem('skatka_addresses') || '[]').filter(a => a.id !== id);
+  localStorage.setItem('skatka_addresses', JSON.stringify(list));
+  renderAddresses();
+  toast('Видалено', 'info');
+};
+
 // ЛАЙТБОКС
 function buildLightbox() {
   if (document.getElementById('lightbox')) return;
@@ -122,6 +214,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (document.getElementById('createAdForm')) initCreateAdForm();
   if (document.getElementById('proceedCheckoutBtn')) initCheckoutPage();
   if (document.getElementById('ordersContentBody')) initProfilePage();
+  if (document.getElementById('addressesBody')) renderAddresses();
   if (document.body.dataset.page === 'admin') initAdminPage();
 });
 
@@ -181,6 +274,8 @@ function openModal(title, html) {
 function closeModal() {
   document.getElementById('modalOverlay').classList.remove('active');
   document.getElementById('genericModal').classList.remove('active');
+  document.getElementById('genericModal').classList.remove('modal-map');
+  if (addrMap) { try { addrMap.remove(); } catch {} addrMap = null; }
 }
 
 function openAuthModal() {
@@ -684,11 +779,11 @@ window.showProfileTab = function(tabName) {
   if (document.getElementById(map[tabName])) document.getElementById(map[tabName]).classList.add('active');
   if (tabName === 'orders') { document.getElementById('sectionOrders').style.display = 'block'; initProfilePage(); }
   else if (tabName === 'wishlist') { document.getElementById('sectionWishlist').style.display = 'block'; }
+  else if (tabName === 'addresses') { document.getElementById('sectionAddresses').style.display = 'block'; renderAddresses(); }
   else { const s = document.getElementById('section' + tabName.charAt(0).toUpperCase() + tabName.slice(1)); if (s) s.style.display = 'block'; }
 };
 window.resetForm = () => toast('Скинуто', 'info');
 window.updateProfile = () => toast('Оновлено', 'success');
-window.addNewAddress = () => prompt('Введіть адресу');
 
 async function initAdminPage() {
   const me = await getMe();
